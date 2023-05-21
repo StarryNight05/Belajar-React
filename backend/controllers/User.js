@@ -4,7 +4,7 @@ import argon2 from "argon2";
 export const getUsers = async (req, res) => {
     try {
         const response = await Users.findAll({
-            attributes: ['name', 'email', 'role']
+            attributes: ['id', 'name', 'email', 'role']
         });
         res.status(200).json(response);
     } catch (error) {
@@ -14,7 +14,7 @@ export const getUsers = async (req, res) => {
 export const getUserById = async (req, res) => {
     try {
         const response = await Users.findOne({
-            attributes: ['name', 'email', 'role'],
+            attributes: ['name', 'email', 'role', 'password'],
             where: {
                 id: req.params.id
             }
@@ -40,9 +40,52 @@ export const createUser = async (req, res) => {
         res.status(400).json({ msg: error.message });
     }
 }
-export const updateUser = (req, res) => {
-
+export const updateUser = async (req, res) => {
+    const user = await Users.findOne({
+        where: {
+            id: req.params.id
+        }
+    });
+    if (!user) return res.status(404).json({ msg: "User tidak ditemukan" });
+    const { name, email, password, confPassword, role } = req.body;
+    let hashPassword;
+    if (password === "" || password === null) {
+        hashPassword = user.password
+    } else {
+        hashPassword = await argon2.hash(password);
+    }
+    if (password !== confPassword) return res.status(400).json({ msg: "Password dan Confirm password tidak cocok" });
+    try {
+        await Users.update({
+            name: name,
+            email: email,
+            password: hashPassword,
+            role: role
+        }, {
+            where: {
+                id: user.id
+            }
+        });
+        res.status(200).json({ msg: "User Berhasil diupdate" });
+    } catch (error) {
+        res.status(400).json({ msg: error.message });
+    }
 }
-export const deleteUser = (req, res) => {
-
+export const deleteUser = async (req, res) => {
+    const user = await Users.findOne({
+        where: {
+            id: req.params.id
+        }
+    });
+    if (!user) return res.status(404).json({ msg: "User tidak ditemukan" });
+    try {
+        await Users.destroy({
+            where: {
+                id: user.id
+            }
+        });
+        res.status(200).json({ msg: "User Berhasil dihapus" });
+    } catch (error) {
+        res.status(400).json({ msg: error.message });
+    }
 }
