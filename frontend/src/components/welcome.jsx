@@ -1,12 +1,12 @@
 import React from 'react'
 
-const welcome = () => {
+const Welcome = () => {
     return (
-        <div>
-            <h1 className='fw-bold'>Dashboard</h1>
-            <h2>Welcome back User</h2>
+        <div className='container mt-5'>
+            <h3 className='fw-bold'>Dashboard</h3>
+            <h5>Welcome back User</h5>
         </div>
     )
 }
 
-export default welcome
+export default Welcome

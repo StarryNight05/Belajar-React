@@ -5,8 +5,8 @@ const Layout = ({ children }) => {
     return (
         <React.Fragment>
             <Navbar />
-            <div className="row mt-5 bg-dark" style={{ minHeight: "100vh" }}>
-                <div className="col-md-12 d-flex justify-content-center">
+            <div className="row mt-5" style={{ minHeight: "100vh" }}>
+                <div className="col-md-12">
                     <main>
                         {children}
                     </main>

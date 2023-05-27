@@ -13,7 +13,7 @@ const Navbar = () => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div className="navbar-nav ms-auto">
-                            <NavLink to={"/dashbaord"} className="me-3 nav-link" style={{ color: "#fff" }}><BsHouseDoorFill className='me-2'></BsHouseDoorFill>Home</NavLink>
+                            <NavLink to={"/dashboard"} className="me-3 nav-link" style={{ color: "#fff" }}><BsHouseDoorFill className='me-2'></BsHouseDoorFill>Home</NavLink>
                             <NavLink to={"/products"} className="me-3 nav-link" style={{ color: "#fff" }}><BsTagFill className='me-2'></BsTagFill>Products</NavLink>
                             <NavLink to={"/users"} className="me-3 nav-link" style={{ color: "#fff" }}><BsPersonFill className='me-2'></BsPersonFill>Users</NavLink>
                             <button type="submit" className="btn fw-bold" style={{ background: "#F94A29", color: "#fff" }}>
