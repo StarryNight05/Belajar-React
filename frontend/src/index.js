@@ -4,8 +4,10 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 import App from './App';
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle";
+import "bootstrap/dist/js/bootstrap.bundle.js";
+import axios from "axios";
 
+axios.defaults.withCredentials = true;
 
 const container = document.getElementById('root');
 const root = createRoot(container);
