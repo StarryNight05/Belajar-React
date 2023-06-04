@@ -27,7 +27,7 @@ const Login = () => {
         <section style={{ marginTop: "245px" }}>
             <div className='container'>
                 <div className="row d-flex justify-content-center">
-                    <div className="col-md-8 card shadow">
+                    <div className="col-md-8">
                         {isError &&
                             <div class="alert alert-danger" role="alert">
                                 <div className="d-flex justify-content-between">
@@ -36,7 +36,7 @@ const Login = () => {
                                 </div>
                             </div>
                         }
-                        <form onSubmit={Auth}>
+                        <form onSubmit={Auth} className='card shadow'>
                             <div className="row">
                                 <div className="col-md-7 bg-primary">
                                     <div className="tagline">

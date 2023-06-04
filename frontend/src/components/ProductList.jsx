@@ -1,7 +1,24 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { BiAddToQueue } from 'react-icons/bi'
+import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 const ProductList = () => {
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        getProduct();
+    }, []);
+
+    const getProduct = async () => {
+        const response = await axios.get('http://localhost:5000/products');
+        setProducts(response.data);
+    }
+
+    const deleteProduct = async (productId) => {
+        await axios.delete(`http://localhost:5000/products/${productId}`);
+        getProduct();
+    }
     return (
         <div className='container mt-5'>
             <h2 className='fw-bold text-dark'>Products</h2>
@@ -16,23 +33,30 @@ const ProductList = () => {
                         <tr>
                             <th>No.</th>
                             <th>Name</th>
-                            <th>Username</th>
                             <th>Price</th>
+                            <th>Username</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                        {products.map((product, index) => (
+                            <tr key={product.uuid}>
+                                <td>{index + 1}</td>
+                                <td>{product.name}</td>
+                                <td>{product.price}</td>
+                                <td>{product.user.name}</td>
+                                <td>
+                                    <div className="d-flex justify-content-between">
+                                        <Link to={`/products/edit/${product.id}`} className="btn btn-primary fw-bold">Edit</Link>
+                                        <button onClick={() => deleteProduct(product.id)} className="btn btn-danger fw-bold" type="submit">Hapus</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div >
     )
 }
 

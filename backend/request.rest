@@ -63,7 +63,7 @@ POST http://localhost:5000/products
 Content-Type: application/json
 
 {
-    "name": "Bebek Bakar",
+    "name": "Bakso Bakar",
     "price": 25000
 }
 
