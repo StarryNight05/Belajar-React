@@ -7,7 +7,7 @@ export const getProducts = async (req, res) => {
         let response;
         if (req.role === 'admin') {
             response = await Products.findAll({
-                attributes: ['name', 'price'],
+                attributes: ['id', 'name', 'price'],
                 include: [{
                     model: Users,
                     attributes: ['id', 'name', 'email', 'role']
@@ -15,7 +15,7 @@ export const getProducts = async (req, res) => {
             });
         } else {
             response = await Products.findAll({
-                attributes: ['name', 'price'],
+                attributes: ['id', 'name', 'price'],
                 where: {
                     userId: req.userId
                 },
@@ -41,7 +41,7 @@ export const getProductById = async (req, res) => {
         let response;
         if (req.role === 'admin') {
             response = await Products.findOne({
-                attributes: ['name', 'price'],
+                attributes: ['id', 'name', 'price'],
                 where: {
                     id: product.id
                 },
@@ -52,7 +52,7 @@ export const getProductById = async (req, res) => {
             });
         } else {
             response = await Products.findOne({
-                attributes: ['name', 'price'],
+                attributes: ['id', 'name', 'price'],
                 where: {
                     [Op.and]: [{ id: product.id }, { userId: req.userId }]
                 },

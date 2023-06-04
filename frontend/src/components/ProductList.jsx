@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 const ProductList = () => {
-    const [products, setProducts] = useState([]);
+    const [product, setProducts] = useState([]);
 
     useEffect(() => {
         getProduct();
@@ -39,8 +39,8 @@ const ProductList = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {products.map((product, index) => (
-                            <tr key={product.uuid}>
+                        {product.map((product, index) => (
+                            <tr key={product.id}>
                                 <td>{index + 1}</td>
                                 <td>{product.name}</td>
                                 <td>{product.price}</td>
