@@ -3,11 +3,11 @@ POST http://localhost:5000/users
 Content-Type: application/json
 
 {
-    "name": "Higa",
-    "email": "higa@gmail.com",
+    "name": "Nino",
+    "email": "nino@gmail.com",
     "password": "123456",
     "confPassword": "123456",
-    "role": "admin"
+    "role": "user"
 }
 
 ###
@@ -16,7 +16,7 @@ GET http://localhost:5000/users
 
 ###
 //Get User by Id
-GET http://localhost:5000/users/1
+GET http://localhost:5000/users/4
 
 ###
 //Update User
@@ -41,7 +41,7 @@ POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-    "email": "lorem@gmail.com",
+    "email": "higa@gmail.com",
     "password": "123456"
 }
 
