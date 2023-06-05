@@ -15,19 +15,6 @@ export const verifyUser = async (req, res, next) => {
     next();
 }
 
-export const hasLogin = async (req, res, next) => {
-    if (req.session.userId) {
-        return res.status(200).json({ msg: "Anda Sudah Login" });
-    }
-    const user = await Users.findOne({
-        where: {
-            id: req.session.userId
-        }
-    });
-    if (!user) return res.status(404).json({ msg: "User tidak ditemukan" });
-    next();
-}
-
 export const adminOnly = async (req, res, next) => {
     if (!req.session.userId) {
         return res.status(401).json({ msg: "Mohon Login terlebih dahulu" });

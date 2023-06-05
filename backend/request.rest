@@ -3,8 +3,8 @@ POST http://localhost:5000/users
 Content-Type: application/json
 
 {
-    "name": "Nino",
-    "email": "nino@gmail.com",
+    "name": "Ade",
+    "email": "ade@gmail.com",
     "password": "123456",
     "confPassword": "123456",
     "role": "user"
@@ -41,7 +41,7 @@ POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-    "email": "higa@gmail.com",
+    "email": "adm@gmail.com",
     "password": "123456"
 }
 
@@ -63,21 +63,21 @@ POST http://localhost:5000/products
 Content-Type: application/json
 
 {
-    "name": "Bakso Bakar",
-    "price": 25000
+    "name": "Telur Gulung",
+    "price": 125000
 }
 
 ###
 //Get Product by ID
-GET http://localhost:5000/products/1
+GET http://localhost:5000/products/15
 
 ###
 //Update Product
-PATCH  http://localhost:5000/products/1
+PATCH  http://localhost:5000/products/15
 Content-Type: application/json
 
 {
-    "name": "Bakso",
+    "name": "Barbeque",
     "price": 15000
 }
 

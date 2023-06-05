@@ -34,10 +34,10 @@ export const getProductById = async (req, res) => {
     try {
         const product = await Products.findOne({
             where: {
-                userId: req.params.id
+                id: req.params.id
             }
         });
-        if (!product) return res.status(404).json({ msg: "Data tidak ditemukan" });
+        if (!product) return res.status(404).json({ msg: "Data gk ada" });
         let response;
         if (req.role === 'admin') {
             response = await Products.findOne({
