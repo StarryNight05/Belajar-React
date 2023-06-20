@@ -1,13 +1,14 @@
 import Products from "../models/ProductModel.js";
 import Users from "../models/UserModel.js";
 import { Op } from "sequelize";
+import path from "path";
 
 export const getProducts = async (req, res) => {
     try {
         let response;
         if (req.role === 'admin') {
             response = await Products.findAll({
-                attributes: ['id', 'name', 'price'],
+                attributes: ['id', 'name', 'image', 'url', 'price'],
                 include: [{
                     model: Users,
                     attributes: ['id', 'name', 'email', 'role']
@@ -15,7 +16,7 @@ export const getProducts = async (req, res) => {
             });
         } else {
             response = await Products.findAll({
-                attributes: ['id', 'name', 'price'],
+                attributes: ['id', 'name', 'image', 'url', 'price'],
                 where: {
                     userId: req.userId
                 },
@@ -41,7 +42,7 @@ export const getProductById = async (req, res) => {
         let response;
         if (req.role === 'admin') {
             response = await Products.findOne({
-                attributes: ['id', 'name', 'price'],
+                attributes: ['id', 'name', 'image', 'url', 'price'],
                 where: {
                     id: product.id
                 },
@@ -52,7 +53,7 @@ export const getProductById = async (req, res) => {
             });
         } else {
             response = await Products.findOne({
-                attributes: ['id', 'name', 'price'],
+                attributes: ['id', 'name', 'image', 'url', 'price'],
                 where: {
                     [Op.and]: [{ id: product.id }, { userId: req.userId }]
                 },
@@ -68,7 +69,18 @@ export const getProductById = async (req, res) => {
     }
 }
 export const createProduct = async (req, res) => {
+    if (req.files === null) return res.status(400).json({ msg: 'No File added' });
     const { name, price } = req.body;
+    const file = req.files.file;
+    const size = file.data.length;
+    const ext = path.extname(file.name);
+    const fileName = file.md5 + ext;
+    const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
+    const allowedType = ['.jpeg', '.jpg', '.png'];
+
+    if (!allowedType.includes(ext.toLowerCase())) return res.status(422).json({ msg: "Invalid image" });
+
+    if (size > 5000000) return res.status(422).json({ msg: "Image must be less than 5MB" });
     try {
         await Products.create({
             name: name,
