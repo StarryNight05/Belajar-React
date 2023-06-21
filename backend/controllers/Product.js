@@ -8,7 +8,7 @@ export const getProducts = async (req, res) => {
         let response;
         if (req.role === 'admin') {
             response = await Products.findAll({
-                attributes: ['id', 'name', 'image', 'url', 'price'],
+                attributes: ['id', 'name', 'price'],
                 include: [{
                     model: Users,
                     attributes: ['id', 'name', 'email', 'role']
@@ -16,7 +16,7 @@ export const getProducts = async (req, res) => {
             });
         } else {
             response = await Products.findAll({
-                attributes: ['id', 'name', 'image', 'url', 'price'],
+                attributes: ['id', 'name', 'price'],
                 where: {
                     userId: req.userId
                 },
@@ -42,7 +42,7 @@ export const getProductById = async (req, res) => {
         let response;
         if (req.role === 'admin') {
             response = await Products.findOne({
-                attributes: ['id', 'name', 'image', 'url', 'price'],
+                attributes: ['id', 'name', 'price'],
                 where: {
                     id: product.id
                 },
@@ -53,7 +53,7 @@ export const getProductById = async (req, res) => {
             });
         } else {
             response = await Products.findOne({
-                attributes: ['id', 'name', 'image', 'url', 'price'],
+                attributes: ['id', 'name', 'price'],
                 where: {
                     [Op.and]: [{ id: product.id }, { userId: req.userId }]
                 },
@@ -81,16 +81,23 @@ export const createProduct = async (req, res) => {
     if (!allowedType.includes(ext.toLowerCase())) return res.status(422).json({ msg: "Invalid image" });
 
     if (size > 5000000) return res.status(422).json({ msg: "Image must be less than 5MB" });
-    try {
-        await Products.create({
-            name: name,
-            price: price,
-            userId: req.userId
-        });
-        res.status(201).json({ msg: "Produk berhasil ditambah" });
-    } catch (error) {
-        res.status(500).json({ msg: error.message });
-    }
+
+    file.mv(`./public/images/${fileName}`, async (err) => {
+        if (err) return res.status(500).json({ msg: err.message });
+
+        try {
+            await Products.create({
+                name: name,
+                image: fileName,
+                url: url,
+                price: price,
+                userId: req.userId
+            });
+            res.status(201).json({ msg: "Produk berhasil ditambah" });
+        } catch (error) {
+            res.status(500).json({ msg: error.message });
+        }
+    });
 }
 export const updateProduct = async (req, res) => {
     try {

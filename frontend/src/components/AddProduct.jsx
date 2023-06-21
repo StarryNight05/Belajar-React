@@ -5,15 +5,31 @@ import { useNavigate } from 'react-router-dom';
 const AddProduct = () => {
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
+    const [file, setFile] = useState('');
+    const [preview, setPreview] = useState('');
+    const loadImage = (e) => {
+        const image = e.target.files[0];
+        setFile(image);
+        setPreview(URL.createObjectURL(image));
+    }
     const [msg, setMsg] = useState('');
     const navigate = useNavigate();
 
     const saveProduct = async (e) => {
         e.preventDefault();
+        // const formData = new formData();
+        // formData.append("name", name);
+        // formData.append("price", price);
+        // formData.append("file", file);
         try {
             await axios.post('http://localhost:5000/products', {
                 name: name,
+                image: file,
                 price: price
+            }, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
             });
             navigate('/products');
         } catch (error) {
@@ -35,6 +51,16 @@ const AddProduct = () => {
                             <label className='fw-bold'>Product Name :</label>
                             <input type="text" className='form-control' value={name} onChange={(e) => setName(e.target.value)} placeholder='Product Name' />
                         </div>
+                        <div className="form-group">
+                            <label className='fw-bold'>Product Image :</label>
+                            <input type="file" className='form-control' onChange={loadImage} placeholder='Product Image' />
+                        </div>
+
+                        {preview ? (
+                            <img src={preview} alt="preview" />
+                        ) : (
+                            ""
+                        )}
                         <div className="form-group mt-3">
                             <label className='fw-bold'>Price :</label>
                             <input type="number" className='form-control' value={price} onChange={(e) => setPrice(e.target.value)} placeholder='Rp. ---' />

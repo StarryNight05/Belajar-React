@@ -64,6 +64,8 @@ Content-Type: application/json
 
 {
     "name": "Telur Gulung",
+    "image": "tes.jpeg",
+    "url": "webkewhf",
     "price": 125000
 }
 
