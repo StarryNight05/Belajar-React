@@ -12,9 +12,9 @@ dotenv.config();
 
 const app = express();
 
-// (async () => {
-//     await db.sync();
-// })();
+(async () => {
+    await db.sync();
+})();
 
 const sessionStore = SequelizeStore(session.Store);
 

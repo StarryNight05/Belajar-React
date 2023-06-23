@@ -1,7 +1,6 @@
 import Products from "../models/ProductModel.js";
 import Users from "../models/UserModel.js";
 import { Op } from "sequelize";
-import path from "path";
 
 export const getProducts = async (req, res) => {
     try {
@@ -69,35 +68,33 @@ export const getProductById = async (req, res) => {
     }
 }
 export const createProduct = async (req, res) => {
-    if (req.files === null) return res.status(400).json({ msg: 'No File added' });
+    // if (req.files === null) return res.status(400).json({ msg: 'No File added' });
     const { name, price } = req.body;
-    const file = req.files.file;
-    const size = file.data.length;
-    const ext = path.extname(file.name);
-    const fileName = file.md5 + ext;
-    const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
-    const allowedType = ['.jpeg', '.jpg', '.png'];
+    // const file = req.files.file;
+    // const size = file.data.length;
+    // const ext = path.extname(file.name);
+    // const fileName = file.md5 + ext;
+    // const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
+    // const allowedType = ['.jpeg', '.jpg', '.png'];
 
-    if (!allowedType.includes(ext.toLowerCase())) return res.status(422).json({ msg: "Invalid image" });
+    // if (!allowedType.includes(ext.toLowerCase())) return res.status(422).json({ msg: "Invalid image" });
 
-    if (size > 5000000) return res.status(422).json({ msg: "Image must be less than 5MB" });
+    // if (size > 5000000) return res.status(422).json({ msg: "Image must be less than 5MB" });
 
-    file.mv(`./public/images/${fileName}`, async (err) => {
-        if (err) return res.status(500).json({ msg: err.message });
+    // file.mv(`./public/images/${fileName}`, async (err) => {
+    //     if (err) return res.status(500).json({ msg: err.message });
 
-        try {
-            await Products.create({
-                name: name,
-                image: fileName,
-                url: url,
-                price: price,
-                userId: req.userId
-            });
-            res.status(201).json({ msg: "Produk berhasil ditambah" });
-        } catch (error) {
-            res.status(500).json({ msg: error.message });
-        }
-    });
+    // });
+    try {
+        await Products.create({
+            name: name,
+            price: price,
+            userId: req.userId
+        });
+        res.status(201).json({ msg: "Produk berhasil ditambah" });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
 }
 export const updateProduct = async (req, res) => {
     try {

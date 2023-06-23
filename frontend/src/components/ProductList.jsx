@@ -43,7 +43,7 @@ const ProductList = () => {
                             <tr key={product.id}>
                                 <td>{index + 1}</td>
                                 <td>{product.name}</td>
-                                <td>{product.price}</td>
+                                <td>Rp.{product.price.toLocaleString()}</td>
                                 <td>{product.user.name}</td>
                                 <td>
                                     <div className="d-flex justify-content-between">
